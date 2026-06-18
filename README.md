@@ -19,7 +19,7 @@ cache w Redis oraz zadaniami w tle (Celery). Frontend renderowany jest przez Dja
 
 ## Stack technologiczny
 
-- Python 3.14, Django 5
+- Python 3.14, Django 5.2 LTS
 - Django REST Framework, SimpleJWT, drf-spectacular
 - PostgreSQL, Redis, Celery
 - Pillow (obrazy), Faker (dane testowe)
