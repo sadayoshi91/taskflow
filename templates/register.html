@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Rejestracja | TaskFlow{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+{% block navbar %}{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <a class="brand" href="{% url 'web-login' %}">
+    <span class="brand__mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    </span>
+    TaskFlow
+  </a>
+  <h1 class="auth-title">Załóż konto</h1>
+  <p class="auth-sub">Dołącz do zespołu i zacznij zarządzać zadaniami.</p>
+
+  {% if form.non_field_errors %}
+    <div class="form-error">{{ form.non_field_errors }}</div>
+  {% endif %}
+
+  <form class="form" method="post">
+    {% csrf_token %}
+    <p>
+      <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+      {{ form.username }}
+      {{ form.username.errors }}
+    </p>
+    <p>
+      <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+      {{ form.email }}
+      {{ form.email.errors }}
+    </p>
+    <div class="grid grid--2" style="gap: 1rem;">
+      <p>
+        <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+        {{ form.first_name }}
+      </p>
+      <p>
+        <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+        {{ form.last_name }}
+      </p>
+    </div>
+    <p>
+      <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+      {{ form.password1 }}
+      {{ form.password1.errors }}
+    </p>
+    <p>
+      <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+      {{ form.password2 }}
+      {{ form.password2.errors }}
+    </p>
+    <button class="btn btn--primary btn--block btn--lg" type="submit">Utwórz konto</button>
+  </form>
+
+  <p class="auth-foot">Masz już konto? <a href="{% url 'web-login' %}">Zaloguj się</a></p>
+</div>
+{% endblock %}

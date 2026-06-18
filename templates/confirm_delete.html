@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Usuń {{ object_kind }} | TaskFlow{% endblock %}
+{% block content %}
+<div class="container container--narrow">
+  <div class="card reveal">
+    <div class="stat__icon is-warning" style="background:var(--danger-soft);color:var(--danger);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M10 11v6M14 11v6"/></svg>
+    </div>
+    <h1>Usuń {{ object_kind }}</h1>
+    <p class="lead">Czy na pewno chcesz usunąć {{ object_kind }} <strong>„{{ object_label }}”</strong>? Tej operacji nie można cofnąć.</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="row mt-2">
+        <button class="btn btn--danger" type="submit">Tak, usuń</button>
+        <a class="btn btn--ghost" href="{{ cancel_url }}">Anuluj</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

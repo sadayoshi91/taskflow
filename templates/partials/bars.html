@@ -1,0 +1,13 @@
+<div class="bars">
+  {% for s in stats %}
+    <div>
+      <div class="bar__top">
+        <span>{{ s.label }}</span>
+        <span class="bar__count">{{ s.count }} · {{ s.pct }}%</span>
+      </div>
+      <div class="bar__track">
+        <div class="bar__fill {% if s.code == 'ACTIVE' or s.code == 'IN_PROGRESS' or s.code == 'LOW' %}c-info{% elif s.code == 'COMPLETED' or s.code == 'DONE' %}c-success{% elif s.code == 'ON_HOLD' or s.code == 'MEDIUM' %}c-warning{% elif s.code == 'CANCELLED' or s.code == 'HIGH' %}c-danger{% else %}c-neutral{% endif %}" data-value="{{ s.pct }}"></div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

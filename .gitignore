@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django
+*.sqlite3
+*.log
+staticfiles/
+media/
+
+# Environment / secrets
+.env
+.venv/
+venv/
+
+# Tests / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tooling
+.playwright-mcp/
+
+# Lokalne notatki do obrony (nie trafiaja na GitHub)
+ARCHITEKTURA.md
+PREZENTACJA_DO_OBRONY.md

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Projekty | TaskFlow{% endblock %}
+{% block content %}
+<div class="container">
+
+  <div class="page-head reveal">
+    <div>
+      <span class="eyebrow">Zarządzanie</span>
+      <h1>Lista projektów</h1>
+      <p>Przeglądaj projekty zespołu, ich status i postęp.</p>
+    </div>
+    {% if request.user.can_manage_work %}
+      <a class="btn btn--primary" href="{% url 'project-create-page' %}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        Nowy projekt
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="grid grid--cards">
+    {% for project in projects %}
+      <article class="card card--hover reveal" data-delay="{% widthratio forloop.counter0 1 1 %}">
+        <div class="card__head">
+          <h2 class="card__title">{{ project.name }}</h2>
+          <span class="badge badge--{{ project.status|lower }}">{{ project.get_status_display }}</span>
+        </div>
+        <p class="lead">{{ project.description|default:"Brak opisu projektu."|truncatewords:18 }}</p>
+
+        <div class="meta-grid">
+          <div>
+            <div class="meta__label">Kierownik</div>
+            <div class="meta__value">{{ project.manager.full_name|default:project.manager.username }}</div>
+          </div>
+          <div>
+            <div class="meta__label">Zadania</div>
+            <div class="meta__value">{{ project.task_total }}</div>
+          </div>
+          <div>
+            <div class="meta__label">Termin</div>
+            <div class="meta__value">{{ project.start_date }} → {{ project.end_date }}</div>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <a class="btn btn--ghost" href="{% url 'project-detail-page' project.pk %}">
+            Szczegóły
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </article>
+    {% empty %}
+      <div class="card empty">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <p>Brak projektów do wyświetlenia.</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if is_paginated %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a class="btn btn--ghost" href="?page={{ page_obj.previous_page_number }}">← Poprzednia</a>
+      {% endif %}
+      <span class="pagination__info">Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a class="btn btn--ghost" href="?page={{ page_obj.next_page_number }}">Następna →</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

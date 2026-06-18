@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Profil | TaskFlow{% endblock %}
+{% block content %}
+<div class="container">
+
+  <div class="page-head reveal">
+    <div>
+      <span class="eyebrow">Konto</span>
+      <h1>Mój profil</h1>
+      <p>Zarządzaj swoimi danymi i zdjęciem profilowym.</p>
+    </div>
+  </div>
+
+  <div class="grid grid--main">
+    <div class="card reveal" data-delay="1" style="order: 2;">
+      <div class="card__head"><h2 class="card__title">Edycja profilu</h2></div>
+      <form class="form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn--primary" type="submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+          Zapisz zmiany
+        </button>
+      </form>
+    </div>
+
+    <div class="card reveal" style="text-align:center;">
+      <div class="card__head"><h2 class="card__title">Avatar</h2></div>
+      {% if profile.avatar_display_url %}
+        <img class="avatar avatar--lg" style="margin: 0.4rem auto 1rem;" src="{{ profile.avatar_display_url }}" alt="Avatar użytkownika {{ request.user.username }}">
+      {% else %}
+        <span class="avatar avatar--lg" style="margin: 0.4rem auto 1rem;">{{ request.user.username|first|upper }}</span>
+      {% endif %}
+      <div style="font-weight:700;">{{ request.user.full_name|default:request.user.username }}</div>
+      <div class="muted">{{ request.user.get_role_display }}</div>
+      {% if profile.job_title %}<div class="muted mt-2">{{ profile.job_title }}</div>{% endif %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

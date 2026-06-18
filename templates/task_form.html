@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{% if is_create %}Nowe zadanie{% else %}Edycja zadania{% endif %} | TaskFlow{% endblock %}
+{% block content %}
+<div class="container container--narrow">
+
+  <a class="stack-link reveal" href="{% url 'task-list-page' %}">← Wróć do zadań</a>
+
+  <div class="page-head reveal mt-2">
+    <div>
+      <span class="eyebrow">{% if is_create %}Tworzenie{% else %}Edycja{% endif %}</span>
+      <h1>{% if is_create %}Nowe zadanie{% else %}Edycja: {{ object.title }}{% endif %}</h1>
+    </div>
+  </div>
+
+  <div class="card reveal">
+    <form class="form" method="post">
+      {% csrf_token %}
+      {% if form.non_field_errors %}<div class="form-error">{{ form.non_field_errors }}</div>{% endif %}
+      {{ form.as_p }}
+      <div class="row">
+        <button class="btn btn--primary" type="submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+          Zapisz
+        </button>
+        <a class="btn btn--ghost" href="{% url 'task-list-page' %}">Anuluj</a>
+      </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

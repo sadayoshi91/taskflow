@@ -1,0 +1,187 @@
+[
+  {
+    "model": "users.user",
+    "pk": 101,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$MQhtACMWgwOop9BcdqSs6v$kf6b68XCJCvMd4Q34wu75PoXyya8E/7M1dLNrmFFUVo=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin_demo",
+      "first_name": "Admin",
+      "last_name": "Demo",
+      "email": "admin.demo@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-06-08T08:00:00Z",
+      "role": "ADMIN"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 102,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$MQhtACMWgwOop9BcdqSs6v$kf6b68XCJCvMd4Q34wu75PoXyya8E/7M1dLNrmFFUVo=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "manager_demo",
+      "first_name": "Marta",
+      "last_name": "Manager",
+      "email": "manager.demo@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-06-08T08:10:00Z",
+      "role": "MANAGER"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 103,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$MQhtACMWgwOop9BcdqSs6v$kf6b68XCJCvMd4Q34wu75PoXyya8E/7M1dLNrmFFUVo=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "employee_demo",
+      "first_name": "Ewa",
+      "last_name": "Employee",
+      "email": "employee.demo@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-06-08T08:20:00Z",
+      "role": "EMPLOYEE"
+    }
+  },
+  {
+    "model": "users.userprofile",
+    "pk": 101,
+    "fields": {
+      "user": 101,
+      "phone_number": "+48 500 100 100",
+      "job_title": "Administrator systemu",
+      "avatar_url": "",
+      "bio": "Konto demonstracyjne administratora.",
+      "created_at": "2026-06-08T08:00:00Z",
+      "updated_at": "2026-06-08T08:00:00Z"
+    }
+  },
+  {
+    "model": "users.userprofile",
+    "pk": 102,
+    "fields": {
+      "user": 102,
+      "phone_number": "+48 500 200 200",
+      "job_title": "Kierownik projektu",
+      "avatar_url": "",
+      "bio": "Konto demonstracyjne kierownika.",
+      "created_at": "2026-06-08T08:10:00Z",
+      "updated_at": "2026-06-08T08:10:00Z"
+    }
+  },
+  {
+    "model": "users.userprofile",
+    "pk": 103,
+    "fields": {
+      "user": 103,
+      "phone_number": "+48 500 300 300",
+      "job_title": "Programista backend",
+      "avatar_url": "",
+      "bio": "Konto demonstracyjne pracownika.",
+      "created_at": "2026-06-08T08:20:00Z",
+      "updated_at": "2026-06-08T08:20:00Z"
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 101,
+    "fields": {
+      "name": "Platforma szkoleniowa",
+      "description": "Projekt demonstracyjny pokazujacy prace zespolu nad aplikacja webowa.",
+      "start_date": "2026-06-01",
+      "end_date": "2026-07-15",
+      "status": "ACTIVE",
+      "manager": 102,
+      "created_by": 101,
+      "created_at": "2026-06-08T09:00:00Z",
+      "updated_at": "2026-06-08T09:00:00Z"
+    }
+  },
+  {
+    "model": "projects.project",
+    "pk": 102,
+    "fields": {
+      "name": "Modul raportow",
+      "description": "Projekt wstrzymany do czasu zatwierdzenia zakresu raportow.",
+      "start_date": "2026-06-10",
+      "end_date": "2026-08-01",
+      "status": "ON_HOLD",
+      "manager": 102,
+      "created_by": 101,
+      "created_at": "2026-06-08T09:30:00Z",
+      "updated_at": "2026-06-08T09:30:00Z"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 101,
+    "fields": {
+      "project": 101,
+      "assigned_to": 103,
+      "title": "Przygotowac endpointy projektow",
+      "description": "Dodac CRUD projektow oraz dokumentacje w Swagger UI.",
+      "due_date": "2026-06-12",
+      "status": "IN_PROGRESS",
+      "priority": "HIGH",
+      "created_at": "2026-06-08T10:00:00Z",
+      "updated_at": "2026-06-08T10:00:00Z"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 102,
+    "fields": {
+      "project": 101,
+      "assigned_to": 103,
+      "title": "Dopisac testy API",
+      "description": "Pokryc endpointy zadan i komentarzy testami DRF.",
+      "due_date": "2026-06-14",
+      "status": "TODO",
+      "priority": "MEDIUM",
+      "created_at": "2026-06-08T10:30:00Z",
+      "updated_at": "2026-06-08T10:30:00Z"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 103,
+    "fields": {
+      "project": 102,
+      "assigned_to": 103,
+      "title": "Analiza raportow",
+      "description": "Zebrac wymagania do raportow statusu projektu.",
+      "due_date": "2026-06-20",
+      "status": "TODO",
+      "priority": "LOW",
+      "created_at": "2026-06-08T11:00:00Z",
+      "updated_at": "2026-06-08T11:00:00Z"
+    }
+  },
+  {
+    "model": "comments.comment",
+    "pk": 101,
+    "fields": {
+      "task": 101,
+      "author": 102,
+      "content": "Prosze pokazac ten endpoint podczas obrony.",
+      "created_at": "2026-06-08T12:00:00Z"
+    }
+  },
+  {
+    "model": "comments.comment",
+    "pk": 102,
+    "fields": {
+      "task": 101,
+      "author": 103,
+      "content": "Endpoint jest gotowy do testow.",
+      "created_at": "2026-06-08T12:15:00Z"
+    }
+  }
+]

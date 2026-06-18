@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | TaskFlow{% endblock %}
+{% block content %}
+<div class="container">
+
+  <div class="page-head reveal">
+    <div>
+      <span class="eyebrow">Panel</span>
+      <h1>Dashboard</h1>
+      <p>Witaj z powrotem, {{ request.user.full_name|default:request.user.username }} — oto przegląd Twoich projektów i zadań.</p>
+    </div>
+    <a class="btn btn--primary" href="{% url 'project-list-page' %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      Przeglądaj projekty
+    </a>
+  </div>
+
+  <!-- Stat cards -->
+  <div class="grid grid--stats">
+    <div class="stat reveal" data-delay="1">
+      <div class="stat__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+      <div class="stat__value" data-count="{{ project_count }}">0</div>
+      <div class="stat__label">Projekty</div>
+    </div>
+    <div class="stat reveal" data-delay="2">
+      <div class="stat__icon is-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      <div class="stat__value" data-count="{{ active_project_count }}">0</div>
+      <div class="stat__label">Aktywne projekty</div>
+    </div>
+    <div class="stat reveal" data-delay="3">
+      <div class="stat__icon is-success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+      <div class="stat__value" data-count="{{ task_count }}">0</div>
+      <div class="stat__label">Zadania</div>
+    </div>
+    <div class="stat reveal" data-delay="4">
+      <div class="stat__icon is-warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+      <div class="stat__value" data-count="{{ active_task_count }}">0</div>
+      <div class="stat__label">Aktywne zadania</div>
+    </div>
+  </div>
+
+  <!-- Progress donuts -->
+  <div class="card reveal mt-2">
+    <div class="card__head"><h2 class="card__title">Postęp prac</h2></div>
+    <div class="donuts">
+      <div class="donut-card">
+        <div class="donut" data-value="{{ completed_project_pct }}">
+          <div class="donut__hole"><span data-count="{{ completed_project_pct }}" data-suffix="%">0%</span></div>
+        </div>
+        <div>
+          <div class="donut-card__label">Ukończone projekty</div>
+          <div class="muted">{{ completed_project_count }} z {{ project_count }}</div>
+        </div>
+      </div>
+      <div class="donut-card">
+        <div class="donut donut--accent" data-value="{{ done_task_pct }}">
+          <div class="donut__hole"><span data-count="{{ done_task_pct }}" data-suffix="%">0%</span></div>
+        </div>
+        <div>
+          <div class="donut-card__label">Wykonane zadania</div>
+          <div class="muted">{{ done_task_count }} z {{ task_count }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Distribution charts -->
+  <div class="grid grid--2 mt-2">
+    <div class="card reveal">
+      <div class="card__head"><h2 class="card__title">Projekty wg statusu</h2></div>
+      {% include "partials/bars.html" with stats=project_status_stats %}
+    </div>
+    <div class="card reveal" data-delay="1">
+      <div class="card__head"><h2 class="card__title">Zadania wg statusu</h2></div>
+      {% include "partials/bars.html" with stats=task_status_stats %}
+    </div>
+  </div>
+
+  <!-- Feeds -->
+  <div class="grid grid--main mt-2">
+    <div class="card reveal">
+      <div class="card__head">
+        <h2 class="card__title">Najnowsze projekty</h2>
+        <a class="stack-link" href="{% url 'project-list-page' %}">Wszystkie →</a>
+      </div>
+      <div class="feed">
+        {% for project in latest_projects %}
+          <div class="feed__item">
+            <span class="feed__dot"></span>
+            <div class="feed__body">
+              <a class="feed__title" href="{% url 'project-detail-page' project.pk %}">{{ project.name }}</a>
+              <span class="feed__meta">Kierownik: {{ project.manager.full_name|default:project.manager.username }}</span>
+            </div>
+            <span class="badge badge--{{ project.status|lower }}">{{ project.get_status_display }}</span>
+          </div>
+        {% empty %}
+          <div class="empty"><p>Brak projektów.</p></div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card reveal" data-delay="1">
+      <div class="card__head">
+        <h2 class="card__title">Najbliższe zadania</h2>
+        <a class="stack-link" href="{% url 'task-list-page' %}">Wszystkie →</a>
+      </div>
+      <div class="feed">
+        {% for task in upcoming_tasks %}
+          <div class="feed__item">
+            <span class="feed__dot"></span>
+            <div class="feed__body">
+              <a class="feed__title" href="{% url 'task-detail-page' task.pk %}">{{ task.title }}</a>
+              <span class="feed__meta">{{ task.project.name }} · termin {{ task.due_date }}</span>
+            </div>
+            <span class="badge badge--{{ task.priority|lower }}">{{ task.get_priority_display }}</span>
+          </div>
+        {% empty %}
+          <div class="empty"><p>Brak aktywnych zadań.</p></div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

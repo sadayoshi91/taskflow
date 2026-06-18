@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}{{ project.name }} | TaskFlow{% endblock %}
+{% block content %}
+<div class="container">
+
+  <a class="stack-link reveal" href="{% url 'project-list-page' %}">← Wróć do projektów</a>
+
+  <div class="detail-head reveal mt-2">
+    <div class="row" style="justify-content: space-between;">
+      <h1 style="margin:0;">{{ project.name }}</h1>
+      <span class="badge badge--{{ project.status|lower }}">{{ project.get_status_display }}</span>
+    </div>
+    <p class="lead mt-2">{{ project.description|default:"Brak opisu projektu." }}</p>
+
+    <div class="meta-grid">
+      <div>
+        <div class="meta__label">Kierownik</div>
+        <div class="meta__value">{{ project.manager.full_name|default:project.manager.username }}</div>
+      </div>
+      <div>
+        <div class="meta__label">Data startu</div>
+        <div class="meta__value">{{ project.start_date }}</div>
+      </div>
+      <div>
+        <div class="meta__label">Data końca</div>
+        <div class="meta__value">{{ project.end_date }}</div>
+      </div>
+      <div>
+        <div class="meta__label">Liczba zadań</div>
+        <div class="meta__value">{{ tasks|length }}</div>
+      </div>
+    </div>
+
+    {% if can_edit %}
+      <div class="row mt-2">
+        <a class="btn btn--ghost btn--sm" href="{% url 'project-update-page' project.pk %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+          Edytuj projekt
+        </a>
+        <a class="btn btn--ghost btn--sm" href="{% url 'project-delete-page' project.pk %}">Usuń</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="card reveal">
+    <div class="card__head">
+      <h2 class="card__title">Zadania w projekcie</h2>
+      {% if can_edit %}
+        <a class="btn btn--primary btn--sm" href="{% url 'task-create-page' %}?project={{ project.pk }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          Dodaj zadanie
+        </a>
+      {% endif %}
+    </div>
+    <div class="table-wrap table-wrap--scroll">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Tytuł</th>
+            <th>Status</th>
+            <th>Priorytet</th>
+            <th>Przypisany</th>
+            <th>Termin</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+            <tr>
+              <td class="cell-strong">{{ task.title }}</td>
+              <td><span class="badge badge--{{ task.status|lower }}">{{ task.get_status_display }}</span></td>
+              <td><span class="badge badge--{{ task.priority|lower }}">{{ task.get_priority_display }}</span></td>
+              <td>{{ task.assigned_to.full_name|default:"—" }}</td>
+              <td>{{ task.due_date }}</td>
+              <td><a class="stack-link" href="{% url 'task-detail-page' task.pk %}">Szczegóły →</a></td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="6"><div class="empty"><p>Brak zadań w tym projekcie.</p></div></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
