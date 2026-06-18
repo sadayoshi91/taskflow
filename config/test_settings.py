@@ -27,7 +27,11 @@ CACHES = {
 }
 
 PASSWORD_HASHERS = [
+    # MD5 first keeps test-created passwords fast; PBKDF2 is required so that
+    # fixtures shipped with PBKDF2 hashes (e.g. taskflow_demo_data) can be
+    # verified when running with these settings.
     "django.contrib.auth.hashers.MD5PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
 ]
 
 CELERY_TASK_ALWAYS_EAGER = True
