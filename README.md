@@ -19,20 +19,20 @@ cache w Redis oraz zadaniami w tle (Celery). Frontend renderowany jest przez Dja
 
 ## Stack technologiczny
 
-- Python 3.13, Django 5
+- Python 3.14, Django 5
 - Django REST Framework, SimpleJWT, drf-spectacular
 - PostgreSQL, Redis, Celery
 - Pillow (obrazy), Faker (dane testowe)
 
 ## Wymagania
 
-- Python 3.13
+- Python 3.14
 - PostgreSQL i Redis (do pełnej konfiguracji)
 
 ## Uruchomienie (PostgreSQL + Redis)
 
 ```powershell
-py -3.13 -m venv .venv
+py -3.14 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 
